@@ -38,7 +38,8 @@ main {
 
     gap: 1rem;
 
-    border: 0.065rem solid #90E0EF;
+    box-shadow: 0 0 0.625rem #000000;
+
     border-radius: 0.5rem;
 }
 
