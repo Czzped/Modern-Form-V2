@@ -81,6 +81,10 @@ main>button:hover {
     height: 3rem;
 }
 
+.erroClass {
+    border-bottom: 0.165rem solid #ff0000 !important;
+}
+
 @media(max-width: 480px) {
     main {
         width: 100%;
