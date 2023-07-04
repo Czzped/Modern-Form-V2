@@ -18,9 +18,12 @@ const registerButton = document.getElementById('enterButton').addEventListener('
 
         if (username.value === "" || email.value === "" || password.value === "") {
             alert('You need to fill all places')
-            username.classList.add('erroClass')
-            email.classList.add('erroClass')
-            password.classList.add('erroClass')
+            const datas = [username, email, password]
+            datas.forEach((ev) => {
+                if (ev.value === "") {
+                    ev.classList.add('erroClass')
+                }
+            })
             return
         }
 
