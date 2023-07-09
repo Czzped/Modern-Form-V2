@@ -29,7 +29,7 @@
     border-bottom: 0.165rem solid #0077B6;
 }
 
-main {
+form {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -42,7 +42,7 @@ main {
     border-radius: 0.5rem;
 }
 
-main>button {
+form>button {
     cursor: pointer;
 
     border: none;
@@ -58,7 +58,7 @@ main>button {
     height: 3rem;
 }
 
-main>button:hover {
+form>button:hover {
     background-color: #0d7fbd;
 }
 
@@ -70,7 +70,7 @@ main>button:hover {
     gap: 1rem;
 }
 
-.inputsArea>input {
+.userInformationInputContant {
     padding: 2%;
 
     border: none;
@@ -81,8 +81,13 @@ main>button:hover {
     height: 3rem;
 }
 
-.erroClass {
+.inputsErro {
     border-bottom: 0.165rem solid #ff0000 !important;
+}
+
+.spanErro {
+    font-size: small;
+    color: #ff0000;
 }
 
 @media(max-width: 480px) {

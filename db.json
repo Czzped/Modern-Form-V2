@@ -1,22 +1,4 @@
 {
   "users": [
-    {
-      "username": "Pedroa",
-      "email": "pedrohcosta211@gmail.com",
-      "password": "PasswordTest65@",
-      "id": 1
-    },
-    {
-      "username": "Mria",
-      "email": "test19@email.com",
-      "password": "PasswordTt65@",
-      "id": 1
-    },
-    {
-      "username": "Jao",
-      "email": "tasfa9@email.com",
-      "password": "Pasaft65@",
-      "id": 1
-    }
   ]
 }

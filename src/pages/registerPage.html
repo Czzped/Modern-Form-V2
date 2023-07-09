@@ -9,18 +9,36 @@
 </head>
 
 <body>
-    <span class="container">
+    <div class="container">
         <h1>Modern Form(V2)</h1>
-        <main>
+        <form id="form">
             <h1>Register</h1>
             <div class="inputsArea">
-                <input type="text" placeholder="Your Username" id="usernameInput" name="fullName">
-                <input type="email" placeholder="Your Email" id="emailInput" name="email">
-                <input type="password" placeholder="Your Password" id="passwordInput">
+                <div>
+                    <input type="text" placeholder="Your Username" id="usernameInput" name="fullName"
+                        class="userInformationInputContant">
+                    <span class="spanErro" id="usernameErroSpan">
+                        <bold></bold>
+                    </span>
+                </div>
+                <div>
+                    <input type="text" placeholder="Your Email" id="emailInput" name="email"
+                        class="userInformationInputContant">
+                    <span class="spanErro" id="emailErroSpan">
+                        <bold></bold>
+                    </span>
+                </div>
+                <div>
+                    <input type="password" placeholder="Your Password" id="passwordInput"
+                        class="userInformationInputContant">
+                    <span class="spanErro" id="passwordErroSpan">
+                        <bold></bold>
+                    </span>
+                </div>
             </div>
-            <button id="enterButton">Register</button>
-        </main>
-    </span>
+            <button id="enterButton" type="submit">Register</button>
+        </form>
+    </div>
     <script src="/src/scripts/registerPageScript.js" defer></script>
 </body>
 

@@ -1,70 +1,147 @@
 const inputs = document.querySelectorAll('input').forEach((ev) => {
     ev.addEventListener('keydown', (ev) => {
-        ev.target.classList.remove('erroClass')
+        const erroSpans = document.querySelectorAll('span')
+        erroSpans.forEach((span) => {
+            span.innerText = ""
+        })
     })
 })
 
-const registerButton = document.getElementById('enterButton').addEventListener('click', async () => {
+const form = document.getElementById('form').addEventListener('submit', async (ev) => {
+    ev.preventDefault()
+
+    let user = {
+        username: "",
+        email: "",
+        password: ""
+    }
+
     try {
-        let passedOnRegexValidation = true
+        const API = await fetch('http://localhost:3000/users')
+        const clientsData = await API.json()
+        let numbersOfPassedRegexErros = 0
 
-        const response = await fetch('http://localhost:3000/users')
-        const clientsData = await response.json()
+        const filds = [
+            {
+                name: "username",
+                ref: document.getElementById('usernameInput'),
+                erroSpan: document.getElementById('usernameErroSpan'),
+                erros: [
+                    {
+                        erroMessage: 'The username must include of 3 to 16 characters.',
+                        regex: /^.{3,16}$/
+                    },
+                    ,
+                    {
+                        erroMessage: 'The username must have just lowercase letters',
+                        regex: /^[a-z]+$/
+                    }
+                ]
+            },
+            {
+                name: "email",
+                ref: document.getElementById('emailInput'),
+                erroSpan: document.getElementById('emailErroSpan'),
+                erros: [
+                    {
+                        erroMessage: "you can't have empty spaces",
+                        regex: /^\S+$/
+                    },
+                    {
+                        erroMessage: "you can write @ just one time",
+                        regex: /^([^@]*@[^@]*)$/
+                    },
+                    {
+                        erroMessage: "you have to put just letters or numbers before the @",
+                        regex: /^[a-zA-Z0-9]+@/
+                    },
+                    {
+                        erroMessage: "you need to put letters or numbers before and after the char .",
+                        regex: /[a-zA-Z0-9]+\.[a-zA-Z0-9]+$/
+                    },
+                    {
+                        erroMessage: "your email needs to have a .something after the char @",
+                        regex: /@.*\./
+                    },
+                    {
+                        erroMessage: "you have to write something before @",
+                        regex: /.+@/
+                    },
+                    {
+                        erroMessage: "email doesn't has @",
+                        regex: /@/
+                    }
+                ]
+            },
+            {
+                name: "password",
+                ref: document.getElementById('passwordInput'),
+                erroSpan: document.getElementById('passwordErroSpan'),
+                erros: [
+                    {
+                        erroMessage: "your password needs to have at least 1 uppercase letter",
+                        regex: /^(?=.*?[A-Z])/
+                    },
+                    {
+                        erroMessage: "your password needs to have at least 1 lowercase letter",
+                        regex: /^(?=.*?[a-z])/
+                    },
+                    {
+                        erroMessage: "your password needs to have at least 1 number",
+                        regex: /^(?=.*?[0-9])/
+                    },
+                    {
+                        erroMessage: "your password needs to have at least one especial char",
+                        regex: /^(?=.*?[#?!@$ %^&*-])/
+                    },
+                    {
+                        erroMessage: "your password needs to have at least 8 chars",
+                        regex: /^.{8,}$/
+                    },
+                ]
+            }
 
-        const username = document.getElementById('usernameInput')
-        const email = document.getElementById('emailInput')
-        const password = document.getElementById('passwordInput')
-        const a = [username, email]
+        ]
 
-        if (username.value === "" || email.value === "" || password.value === "") {
-            alert('You need to fill all places')
-            const datas = [username, email, password]
-            datas.forEach((ev) => {
-                if (ev.value === "") {
-                    ev.classList.add('erroClass')
+        filds.map(({ name, ref, erroSpan, erros }) => {
+            if (ref.value === "") {
+                return erroSpan.innerText = 'You need to fill this place'
+            }
+
+            erros.forEach((erro) => {
+                if (!ref.value.match(erro.regex)) {
+                    return erroSpan.innerText = erro.erroMessage
                 }
+                user[name] = ref.value
+                numbersOfPassedRegexErros++
             })
-            return
-        }
-
-        if (!email.value.match((/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) || email.value === "") {
-            alert("Your email doens't match")
-            email.classList.add('erroClass')
-            passedOnRegexValidation = false
-        }
-        if (!password.value.match((/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/)) || password.value === "") {
-            alert("Write a password between 8 to 15 characters which contain at least one lowercase letter, one uppercase letter, one numeric digit, and one special character")
-            password.classList.add('erroClass')
-            passedOnRegexValidation = false
-        }
+        })
 
         const usernameVerification = clientsData.find((ev) => {
-            return ev.username === username.value
+            return ev.username === user.username
         })
         const emailVerification = clientsData.find((ev) => {
-            return ev.email === email.value
+            return ev.email === user.email
         })
 
         if (usernameVerification || emailVerification) {
-            alert('You are trying register an user that already exists')
-        } else if (passedOnRegexValidation === false) {
-            return
-        } else {
-            const response = await fetch('http://localhost:3000/users', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    "username": username.value,
-                    "email": email.value,
-                    "password": password.value
-                })
-            })
-            window.location.replace("/src/pages/loginPage.html")
+            return alert('You are trying register an user that already exists')
         }
+
+        if (numbersOfPassedRegexErros < 14) {
+            return
+        }
+
+        const response = await fetch('http://localhost:3000/users', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(user)
+        })
+        window.location.replace("/src/pages/loginPage.html")
     } catch (err) {
-        alert('Something happend :(')
+        alert('Something happened:(')
         console.log(err)
     }
 })
