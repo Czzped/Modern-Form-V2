@@ -2,9 +2,9 @@ const path = require('path')
 
 module.exports = {
     entry: {
-        finalPage: './src/scripts/finalPageScript.js',
         loginPage: './src/scripts/loginPageScript.js',
-        registerPage: './src/scripts/registerPageScript.js'
+        registerPage: './src/scripts/registerPageScript.js',
+        finalPageScript: './src/scripts/finalPageScript.js'
     },
     output: {
         path: path.resolve(__dirname, 'dist/scripts'),

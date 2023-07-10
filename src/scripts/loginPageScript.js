@@ -1,3 +1,5 @@
+import "../styles/loginPageStyle.css"
+
 const enterButton = document.getElementById('enterButton').addEventListener('click', async () => {
     try {
         const response = await fetch('http://localhost:3000/users')

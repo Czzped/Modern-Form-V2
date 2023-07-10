@@ -1,3 +1,5 @@
+import "../styles/registerPageStyle.css"
+
 const inputs = document.querySelectorAll('input').forEach((ev) => {
     ev.addEventListener('keydown', (ev) => {
         const erroSpans = document.querySelectorAll('span')
@@ -139,7 +141,7 @@ const form = document.getElementById('form').addEventListener('submit', async (e
             },
             body: JSON.stringify(user)
         })
-        window.location.replace("/src/pages/loginPage.html")
+        window.location.replace("/dist/pages/loginPage.html")
     } catch (err) {
         alert('Something happened:(')
         console.log(err)
